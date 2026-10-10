@@ -1,0 +1,12 @@
+{
+  "name": "design-system",
+  "version": "1.0.0",
+  "description": "Framework-agnostic CSS design system: tokens, base styles and components",
+  "style": "src/index.css",
+  "main": "src/ds.js",
+  "files": ["src", "tokens"],
+  "scripts": {
+    "dev": "npx --yes serve -l 5173 ."
+  },
+  "license": "MIT"
+}

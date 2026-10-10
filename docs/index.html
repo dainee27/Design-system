@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Design System</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="../src/index.css" />
+  <script>
+    // 깜빡임 없이 저장된 테마 적용
+    try {
+      const t = localStorage.getItem("ds-theme");
+      if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+    } catch (_) {}
+  </script>
+  <style>
+    /* 문서 페이지 전용 레이아웃 (디자인 시스템 자체에는 포함되지 않음) */
+    .doc-header {
+      position: sticky; top: 0; z-index: var(--ds-z-sticky);
+      background: color-mix(in srgb, var(--ds-color-bg) 85%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ds-color-border);
+    }
+    .doc-header .ds-container { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: var(--ds-space-4); }
+    .doc-logo { display: flex; white-space: nowrap; align-items: center; gap: var(--ds-space-2); font-weight: var(--ds-weight-bold); }
+    @media (max-width: 420px) { .doc-logo .ds-badge { display: none; } }
+    .doc-logo__mark { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: var(--ds-radius-sm); background: var(--ds-color-accent); color: #fff; font-size: 14px; }
+    .doc-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--ds-space-10); padding-block: var(--ds-space-10) var(--ds-space-20); }
+    @media (min-width: 1024px) { .doc-layout { grid-template-columns: 200px minmax(0, 1fr); } }
+    .doc-nav { display: none; }
+    @media (min-width: 1024px) {
+      .doc-nav { display: flex; flex-direction: column; gap: 2px; position: sticky; top: 92px; align-self: start; }
+    }
+    .doc-nav a { padding: 6px 10px; border-radius: var(--ds-radius-sm); color: var(--ds-color-text-secondary); text-decoration: none; font-size: var(--ds-text-sm); }
+    .doc-nav a:hover { background: var(--ds-color-neutral-hover); color: var(--ds-color-text); }
+    .doc-nav .ds-overline { padding: 16px 10px 6px; }
+    .doc-section { scroll-margin-top: 84px; padding-top: var(--ds-space-12); }
+    .doc-section > h2 { font-size: var(--ds-text-2xl); margin-bottom: var(--ds-space-2); }
+    .doc-section > p { color: var(--ds-color-text-secondary); margin-bottom: var(--ds-space-6); max-width: 640px; }
+    .doc-demo { padding: var(--ds-space-6); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-lg) var(--ds-radius-lg) 0 0; background: var(--ds-color-bg-subtle); }
+    .doc-demo + pre { margin: 0; padding: var(--ds-space-4) var(--ds-space-5); border: 1px solid var(--ds-color-border); border-top: 0; border-radius: 0 0 var(--ds-radius-lg) var(--ds-radius-lg); background: var(--ds-color-surface); overflow-x: auto; font-size: 13px; line-height: 1.7; color: var(--ds-color-text-secondary); }
+    .doc-demo-only { border-radius: var(--ds-radius-lg); }
+    .doc-hero { padding-bottom: var(--ds-space-4); }
+    .doc-hero p { font-size: var(--ds-text-lg); color: var(--ds-color-text-secondary); max-width: 600px; margin-top: var(--ds-space-4); }
+    .swatch-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: var(--ds-space-2); margin-bottom: var(--ds-space-5); }
+    .swatch { display: flex; flex-direction: column; gap: 6px; font-size: 11px; }
+    .swatch i { height: 48px; border-radius: var(--ds-radius-md); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06); }
+    .swatch b { font-weight: var(--ds-weight-semibold); font-size: 12px; }
+    .swatch code { background: none; padding: 0; color: var(--ds-color-text-tertiary); }
+    .type-row { display: grid; grid-template-columns: 120px 1fr; align-items: baseline; gap: var(--ds-space-4); padding-block: var(--ds-space-3); border-bottom: 1px solid var(--ds-color-border); }
+    .type-row:last-child { border-bottom: 0; }
+    @media (max-width: 640px) { .type-row { grid-template-columns: 1fr; gap: 4px; } }
+    .space-row { display: flex; align-items: center; gap: var(--ds-space-4); font-size: var(--ds-text-sm); }
+    .space-row code { width: 110px; flex-shrink: 0; }
+    .space-row i { height: 16px; border-radius: 3px; background: var(--ds-color-accent); opacity: 0.85; }
+    .token-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--ds-space-4); }
+    .token-tile { display: grid; place-items: center; height: 96px; background: var(--ds-color-surface); border: 1px solid var(--ds-color-border); font-size: var(--ds-text-xs); color: var(--ds-color-text-secondary); }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="ds-container">
+      <div class="doc-logo"><span class="doc-logo__mark">D</span> Design System <span class="ds-badge ds-badge--accent">v1.0</span></div>
+      <div class="ds-segmented" role="group" aria-label="테마">
+        <button type="button" data-theme-btn="light">라이트</button>
+        <button type="button" data-theme-btn="system">시스템</button>
+        <button type="button" data-theme-btn="dark">다크</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="ds-container doc-layout">
+    <nav class="doc-nav" aria-label="문서 목차">
+      <div class="ds-overline">Foundations</div>
+      <a href="#color">Color</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#radius">Radius &amp; Shadow</a>
+      <div class="ds-overline">Components</div>
+      <a href="#button">Button</a>
+      <a href="#form">Form</a>
+      <a href="#selection">Checkbox · Radio · Switch</a>
+      <a href="#card">Card</a>
+      <a href="#badge">Badge</a>
+      <a href="#alert">Alert</a>
+      <a href="#avatar">Avatar</a>
+      <a href="#tabs">Tabs</a>
+      <a href="#table">Table</a>
+      <a href="#feedback">Progress · Loading</a>
+      <a href="#overlay">Modal · Toast · Tooltip</a>
+    </nav>
+
+    <main>
+      <section class="doc-hero">
+        <div class="ds-overline">Foundations &amp; Components</div>
+        <h1 class="ds-display" style="margin-top:8px">일관된 경험을 위한<br />디자인 시스템</h1>
+        <p>디자인 토큰, 기본 스타일, 컴포넌트로 구성된 프레임워크 독립적인 CSS 디자인 시스템입니다. 라이트/다크 테마와 접근성을 기본으로 지원합니다.</p>
+        <div class="ds-cluster" style="margin-top:24px">
+          <a class="ds-btn ds-btn--lg" href="#button">컴포넌트 보기</a>
+          <a class="ds-btn ds-btn--secondary ds-btn--lg" href="#color">토큰 살펴보기</a>
+        </div>
+      </section>
+
+      <!-- ===================== COLOR ===================== -->
+      <section class="doc-section" id="color">
+        <h2>Color</h2>
+        <p>Primitive 팔레트는 원시 색상값이며, 컴포넌트는 항상 용도 기반의 Semantic 토큰(<code>--ds-color-*</code>)을 사용합니다. 테마 전환 시 Semantic 토큰만 바뀝니다.</p>
+        <h5 style="margin-bottom:12px">Brand</h5>
+        <div class="swatch-row" id="swatch-brand"></div>
+        <h5 style="margin-bottom:12px">Gray</h5>
+        <div class="swatch-row" id="swatch-gray"></div>
+        <h5 style="margin-bottom:12px">Semantic</h5>
+        <div class="swatch-row" id="swatch-semantic"></div>
+      </section>
+
+      <!-- ===================== TYPOGRAPHY ===================== -->
+      <section class="doc-section" id="typography">
+        <h2>Typography</h2>
+        <p>기본 서체는 Pretendard이며, 한글 가독성을 위해 <code>word-break: keep-all</code>을 적용합니다.</p>
+        <div class="doc-demo doc-demo-only">
+          <div class="type-row"><code>Display · 48</code><div class="ds-display">다람쥐 헌 쳇바퀴</div></div>
+          <div class="type-row"><code>H1 · 36</code><div class="ds-h1">다람쥐 헌 쳇바퀴에 타고파</div></div>
+          <div class="type-row"><code>H2 · 30</code><div class="ds-h2">다람쥐 헌 쳇바퀴에 타고파</div></div>
+          <div class="type-row"><code>H3 · 24</code><div class="ds-h3">다람쥐 헌 쳇바퀴에 타고파</div></div>
+          <div class="type-row"><code>H4 · 20</code><div class="ds-h4">다람쥐 헌 쳇바퀴에 타고파</div></div>
+          <div class="type-row"><code>Body L · 18</code><div class="ds-body-lg">The quick brown fox jumps over the lazy dog.</div></div>
+          <div class="type-row"><code>Body · 16</code><div class="ds-body">키보드 하나로 모든 것을 — The quick brown fox.</div></div>
+          <div class="type-row"><code>Body S · 14</code><div class="ds-body-sm">보조 설명이나 밀도 높은 UI에 사용합니다.</div></div>
+          <div class="type-row"><code>Caption · 12</code><div class="ds-caption">2026년 10월 10일 · 업데이트됨</div></div>
+        </div>
+      </section>
+
+      <!-- ===================== SPACING ===================== -->
+      <section class="doc-section" id="spacing">
+        <h2>Spacing</h2>
+        <p>4px 그리드 기반의 간격 스케일입니다. 레이아웃·패딩·갭에 일관되게 사용합니다.</p>
+        <div class="doc-demo doc-demo-only ds-stack" id="space-list" style="gap:10px"></div>
+      </section>
+
+      <!-- ===================== RADIUS & SHADOW ===================== -->
+      <section class="doc-section" id="radius">
+        <h2>Radius &amp; Shadow</h2>
+        <p>모서리 반경과 그림자(elevation)는 요소의 계층을 표현합니다.</p>
+        <div class="doc-demo doc-demo-only ds-stack" style="gap:24px">
+          <div class="token-tiles">
+            <div class="token-tile" style="border-radius:var(--ds-radius-xs)">radius-xs · 4</div>
+            <div class="token-tile" style="border-radius:var(--ds-radius-sm)">radius-sm · 6</div>
+            <div class="token-tile" style="border-radius:var(--ds-radius-md)">radius-md · 8</div>
+            <div class="token-tile" style="border-radius:var(--ds-radius-lg)">radius-lg · 12</div>
+            <div class="token-tile" style="border-radius:var(--ds-radius-xl)">radius-xl · 16</div>
+            <div class="token-tile" style="border-radius:var(--ds-radius-full);height:56px">radius-full</div>
+          </div>
+          <div class="token-tiles">
+            <div class="token-tile" style="border:0;border-radius:12px;box-shadow:var(--ds-shadow-xs)">shadow-xs</div>
+            <div class="token-tile" style="border:0;border-radius:12px;box-shadow:var(--ds-shadow-sm)">shadow-sm</div>
+            <div class="token-tile" style="border:0;border-radius:12px;box-shadow:var(--ds-shadow-md)">shadow-md</div>
+            <div class="token-tile" style="border:0;border-radius:12px;box-shadow:var(--ds-shadow-lg)">shadow-lg</div>
+            <div class="token-tile" style="border:0;border-radius:12px;box-shadow:var(--ds-shadow-xl)">shadow-xl</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== BUTTON ===================== -->
+      <section class="doc-section" id="button">
+        <h2>Button</h2>
+        <p>Primary는 화면당 하나의 주요 행동에만 사용합니다. 위계에 따라 Secondary, Tertiary, Ghost를 선택하세요.</p>
+        <div class="doc-demo ds-stack">
+          <div class="ds-cluster">
+            <button class="ds-btn">Primary</button>
+            <button class="ds-btn ds-btn--secondary">Secondary</button>
+            <button class="ds-btn ds-btn--tertiary">Tertiary</button>
+            <button class="ds-btn ds-btn--ghost">Ghost</button>
+            <button class="ds-btn ds-btn--danger">삭제</button>
+          </div>
+          <div class="ds-cluster">
+            <button class="ds-btn ds-btn--sm">Small</button>
+            <button class="ds-btn">Medium</button>
+            <button class="ds-btn ds-btn--lg">Large</button>
+            <button class="ds-btn ds-btn--secondary ds-btn--icon" aria-label="추가" data-tooltip="추가">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <button class="ds-btn ds-btn--secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              다운로드
+            </button>
+            <button class="ds-btn" aria-busy="true">저장</button>
+            <button class="ds-btn" disabled>Disabled</button>
+          </div>
+        </div>
+<pre><code>&lt;button class="ds-btn"&gt;Primary&lt;/button&gt;
+&lt;button class="ds-btn ds-btn--secondary ds-btn--sm"&gt;Secondary&lt;/button&gt;
+&lt;button class="ds-btn" aria-busy="true"&gt;저장&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- ===================== FORM ===================== -->
+      <section class="doc-section" id="form">
+        <h2>Form</h2>
+        <p>레이블은 항상 표시하고, 오류는 <code>aria-invalid</code>와 설명 텍스트로 함께 전달합니다.</p>
+        <div class="doc-demo">
+          <div class="ds-grid" style="grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:20px">
+            <div class="ds-field">
+              <label class="ds-label" for="f-name">이름<span class="ds-required">*</span></label>
+              <input class="ds-input" id="f-name" placeholder="홍길동" />
+              <span class="ds-hint">실명을 입력해주세요.</span>
+            </div>
+            <div class="ds-field" data-invalid>
+              <label class="ds-label" for="f-email">이메일</label>
+              <input class="ds-input" id="f-email" value="hello@" aria-invalid="true" aria-describedby="f-email-err" />
+              <span class="ds-hint" id="f-email-err">올바른 이메일 형식이 아닙니다.</span>
+            </div>
+            <div class="ds-field">
+              <label class="ds-label" for="f-search">검색</label>
+              <div class="ds-input-group">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input class="ds-input" id="f-search" type="search" placeholder="컴포넌트 검색" />
+              </div>
+            </div>
+            <div class="ds-field">
+              <label class="ds-label" for="f-role">역할</label>
+              <select class="ds-select" id="f-role">
+                <option>디자이너</option>
+                <option>개발자</option>
+                <option>PM</option>
+              </select>
+            </div>
+            <div class="ds-field">
+              <label class="ds-label" for="f-dis">비활성</label>
+              <input class="ds-input" id="f-dis" value="수정할 수 없음" disabled />
+            </div>
+            <div class="ds-field" style="grid-column:1/-1">
+              <label class="ds-label" for="f-msg">메시지</label>
+              <textarea class="ds-textarea" id="f-msg" placeholder="내용을 입력하세요"></textarea>
+            </div>
+          </div>
+        </div>
+<pre><code>&lt;div class="ds-field"&gt;
+  &lt;label class="ds-label" for="email"&gt;이메일&lt;/label&gt;
+  &lt;input class="ds-input" id="email" aria-invalid="true" /&gt;
+  &lt;span class="ds-error"&gt;올바른 이메일 형식이 아닙니다.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <!-- ===================== SELECTION ===================== -->
+      <section class="doc-section" id="selection">
+        <h2>Checkbox · Radio · Switch</h2>
+        <p>네이티브 <code>input</code>을 그대로 사용하므로 키보드·스크린리더 접근성이 보장됩니다. Switch는 즉시 적용되는 설정에 사용합니다.</p>
+        <div class="doc-demo">
+          <div class="ds-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+            <div class="ds-stack" style="gap:10px">
+              <label class="ds-check"><input type="checkbox" checked /> 이용약관 동의</label>
+              <label class="ds-check"><input type="checkbox" id="indet" /> 일부 선택</label>
+              <label class="ds-check"><input type="checkbox" /> 마케팅 수신</label>
+              <label class="ds-check"><input type="checkbox" disabled /> 비활성</label>
+            </div>
+            <div class="ds-stack" style="gap:10px">
+              <label class="ds-check"><input type="radio" name="plan" checked /> 무료</label>
+              <label class="ds-check"><input type="radio" name="plan" /> 프로</label>
+              <label class="ds-check"><input type="radio" name="plan" /> 엔터프라이즈</label>
+            </div>
+            <div class="ds-stack" style="gap:12px">
+              <label class="ds-switch"><input type="checkbox" role="switch" checked /> 알림 받기</label>
+              <label class="ds-switch"><input type="checkbox" role="switch" /> 자동 저장</label>
+              <label class="ds-switch"><input type="checkbox" role="switch" disabled /> 비활성</label>
+            </div>
+          </div>
+        </div>
+<pre><code>&lt;label class="ds-check"&gt;&lt;input type="checkbox" /&gt; 이용약관 동의&lt;/label&gt;
+&lt;label class="ds-switch"&gt;&lt;input type="checkbox" role="switch" /&gt; 알림 받기&lt;/label&gt;</code></pre>
+      </section>
+
+      <!-- ===================== CARD ===================== -->
+      <section class="doc-section" id="card">
+        <h2>Card</h2>
+        <p>관련 콘텐츠를 하나의 단위로 묶습니다. 기본(테두리), Elevated(그림자), Interactive(호버) 변형이 있습니다.</p>
+        <div class="doc-demo">
+          <div class="ds-grid">
+            <article class="ds-card">
+              <div class="ds-card__header"><div class="ds-card__title">기본 카드</div></div>
+              <div class="ds-card__body"><p class="ds-card__desc">테두리로 영역을 구분합니다. 대부분의 경우 이 형태를 사용합니다.</p></div>
+              <div class="ds-card__footer"><button class="ds-btn ds-btn--ghost ds-btn--sm">취소</button><button class="ds-btn ds-btn--sm">확인</button></div>
+            </article>
+            <article class="ds-card ds-card--elevated">
+              <div class="ds-card__header"><span class="ds-badge ds-badge--success ds-badge--dot">운영 중</span></div>
+              <div class="ds-card__body">
+                <div class="ds-card__title">Elevated</div>
+                <p class="ds-card__desc" style="margin-top:4px">그림자로 떠 있는 느낌을 줍니다. 대시보드 위젯에 적합합니다.</p>
+              </div>
+            </article>
+            <a class="ds-card ds-card--interactive" href="#card" style="text-decoration:none;color:inherit">
+              <div class="ds-card__body ds-stack" style="gap:8px">
+                <div class="ds-avatar">디</div>
+                <div class="ds-card__title">Interactive</div>
+                <p class="ds-card__desc">카드 전체가 링크일 때 사용합니다. 마우스를 올려보세요.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+<pre><code>&lt;article class="ds-card"&gt;
+  &lt;div class="ds-card__header"&gt;&lt;div class="ds-card__title"&gt;제목&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="ds-card__body"&gt;…&lt;/div&gt;
+  &lt;div class="ds-card__footer"&gt;…&lt;/div&gt;
+&lt;/article&gt;</code></pre>
+      </section>
+
+      <!-- ===================== BADGE ===================== -->
+      <section class="doc-section" id="badge">
+        <h2>Badge</h2>
+        <p>상태나 분류를 짧게 표시합니다. 색상만으로 의미를 전달하지 않도록 항상 텍스트를 함께 사용합니다.</p>
+        <div class="doc-demo ds-cluster">
+          <span class="ds-badge">기본</span>
+          <span class="ds-badge ds-badge--accent">New</span>
+          <span class="ds-badge ds-badge--success ds-badge--dot">완료</span>
+          <span class="ds-badge ds-badge--warning ds-badge--dot">검토 중</span>
+          <span class="ds-badge ds-badge--danger ds-badge--dot">실패</span>
+          <span class="ds-badge ds-badge--info">Beta</span>
+        </div>
+<pre><code>&lt;span class="ds-badge ds-badge--success ds-badge--dot"&gt;완료&lt;/span&gt;</code></pre>
+      </section>
+
+      <!-- ===================== ALERT ===================== -->
+      <section class="doc-section" id="alert">
+        <h2>Alert</h2>
+        <p>페이지 맥락 안에서 중요한 정보를 전달합니다. 긴급한 오류에는 <code>role="alert"</code>를 사용합니다.</p>
+        <div class="doc-demo ds-stack">
+          <div class="ds-alert" role="status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <div><div class="ds-alert__title">새 버전이 출시되었습니다</div><div class="ds-alert__body">v1.0에서 다크 모드와 새 컴포넌트가 추가되었습니다.</div></div>
+          </div>
+          <div class="ds-alert ds-alert--success" role="status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+            <div><div class="ds-alert__title">저장되었습니다</div><div class="ds-alert__body">변경 사항이 모든 팀원에게 반영됩니다.</div></div>
+          </div>
+          <div class="ds-alert ds-alert--warning" role="status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg>
+            <div><div class="ds-alert__title">저장 공간이 부족합니다</div><div class="ds-alert__body">사용량이 90%를 넘었습니다.</div></div>
+          </div>
+          <div class="ds-alert ds-alert--danger" role="alert">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+            <div><div class="ds-alert__title">결제에 실패했습니다</div><div class="ds-alert__body">카드 정보를 확인한 뒤 다시 시도해주세요.</div></div>
+          </div>
+        </div>
+<pre><code>&lt;div class="ds-alert ds-alert--success" role="status"&gt;
+  &lt;svg&gt;…&lt;/svg&gt;
+  &lt;div&gt;&lt;div class="ds-alert__title"&gt;저장되었습니다&lt;/div&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <!-- ===================== AVATAR ===================== -->
+      <section class="doc-section" id="avatar">
+        <h2>Avatar</h2>
+        <p>사용자나 조직을 나타냅니다. 이미지가 없으면 이니셜을 표시합니다.</p>
+        <div class="doc-demo ds-cluster" style="gap:20px">
+          <span class="ds-avatar ds-avatar--sm">김</span>
+          <span class="ds-avatar">이</span>
+          <span class="ds-avatar ds-avatar--lg">박</span>
+          <span class="ds-avatar-group">
+            <span class="ds-avatar">JS</span>
+            <span class="ds-avatar" style="background:var(--ds-color-success-subtle);color:var(--ds-color-success-text)">MK</span>
+            <span class="ds-avatar" style="background:var(--ds-color-warning-subtle);color:var(--ds-color-warning-text)">YH</span>
+            <span class="ds-avatar" style="background:var(--ds-color-bg-muted);color:var(--ds-color-text-secondary)">+5</span>
+          </span>
+        </div>
+<pre><code>&lt;span class="ds-avatar"&gt;이&lt;/span&gt;
+&lt;span class="ds-avatar-group"&gt;&lt;span class="ds-avatar"&gt;JS&lt;/span&gt;…&lt;/span&gt;</code></pre>
+      </section>
+
+      <!-- ===================== TABS ===================== -->
+      <section class="doc-section" id="tabs">
+        <h2>Tabs</h2>
+        <p>WAI-ARIA Tabs 패턴을 따르며, <kbd>←</kbd> <kbd>→</kbd> <kbd>Home</kbd> <kbd>End</kbd> 키로 이동할 수 있습니다.</p>
+        <div class="doc-demo">
+          <div data-ds-tabs>
+            <div class="ds-tabs__list" role="tablist" aria-label="프로젝트">
+              <button class="ds-tabs__tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">개요</button>
+              <button class="ds-tabs__tab" role="tab" id="t2" aria-controls="p2">활동</button>
+              <button class="ds-tabs__tab" role="tab" id="t3" aria-controls="p3">설정</button>
+            </div>
+            <div class="ds-tabs__panel" role="tabpanel" id="p1" aria-labelledby="t1" tabindex="0">프로젝트의 전반적인 현황을 보여줍니다.</div>
+            <div class="ds-tabs__panel" role="tabpanel" id="p2" aria-labelledby="t2" tabindex="0" hidden>최근 활동 내역이 여기에 표시됩니다.</div>
+            <div class="ds-tabs__panel" role="tabpanel" id="p3" aria-labelledby="t3" tabindex="0" hidden>프로젝트 설정을 변경할 수 있습니다.</div>
+          </div>
+          <div class="ds-segmented" role="group" aria-label="보기 방식" style="margin-top:8px" id="seg-demo">
+            <button type="button" aria-pressed="true">일간</button>
+            <button type="button" aria-pressed="false">주간</button>
+            <button type="button" aria-pressed="false">월간</button>
+          </div>
+        </div>
+<pre><code>&lt;div data-ds-tabs&gt;
+  &lt;div class="ds-tabs__list" role="tablist"&gt;
+    &lt;button class="ds-tabs__tab" role="tab" aria-controls="p1" aria-selected="true"&gt;개요&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="ds-tabs__panel" role="tabpanel" id="p1"&gt;…&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <!-- ===================== TABLE ===================== -->
+      <section class="doc-section" id="table">
+        <h2>Table</h2>
+        <p>숫자 열은 <code>.ds-num</code>으로 우측 정렬 및 고정폭 숫자를 적용합니다. 좁은 화면에서는 가로 스크롤됩니다.</p>
+        <div class="ds-table-wrap">
+          <table class="ds-table">
+            <thead><tr><th>이름</th><th>상태</th><th>역할</th><th class="ds-num">기여</th></tr></thead>
+            <tbody>
+              <tr><td><span class="ds-cluster" style="gap:10px"><span class="ds-avatar ds-avatar--sm">김</span>김지수</span></td><td><span class="ds-badge ds-badge--success ds-badge--dot">활성</span></td><td>디자이너</td><td class="ds-num">1,284</td></tr>
+              <tr><td><span class="ds-cluster" style="gap:10px"><span class="ds-avatar ds-avatar--sm">이</span>이민호</span></td><td><span class="ds-badge ds-badge--warning ds-badge--dot">휴가</span></td><td>프론트엔드</td><td class="ds-num">962</td></tr>
+              <tr><td><span class="ds-cluster" style="gap:10px"><span class="ds-avatar ds-avatar--sm">박</span>박서연</span></td><td><span class="ds-badge ds-badge--dot">초대됨</span></td><td>PM</td><td class="ds-num">57</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== FEEDBACK ===================== -->
+      <section class="doc-section" id="feedback">
+        <h2>Progress · Loading</h2>
+        <p>진행률을 알 수 있으면 Progress, 모를 때는 Spinner, 콘텐츠 로딩 자리에는 Skeleton을 사용합니다.</p>
+        <div class="doc-demo ds-stack" style="gap:24px">
+          <div class="ds-stack" style="gap:8px">
+            <div class="ds-cluster" style="justify-content:space-between"><span class="ds-body-sm">업로드 중…</span><span class="ds-caption">64%</span></div>
+            <div class="ds-progress" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="업로드"><div class="ds-progress__bar" style="width:64%"></div></div>
+          </div>
+          <div class="ds-cluster"><span class="ds-spinner" role="status" aria-label="로딩 중"></span><span class="ds-body-sm ds-text-secondary">불러오는 중</span></div>
+          <div class="ds-cluster" style="align-items:flex-start;flex-wrap:nowrap" aria-hidden="true">
+            <div class="ds-skeleton" style="width:48px;height:48px;border-radius:50%;flex-shrink:0"></div>
+            <div class="ds-stack" style="gap:8px;flex:1">
+              <div class="ds-skeleton" style="height:14px;width:40%"></div>
+              <div class="ds-skeleton" style="height:12px;width:90%"></div>
+              <div class="ds-skeleton" style="height:12px;width:70%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== OVERLAY ===================== -->
+      <section class="doc-section" id="overlay">
+        <h2>Modal · Toast · Tooltip</h2>
+        <p>Modal은 네이티브 <code>&lt;dialog&gt;</code>를 사용해 포커스 트랩과 <kbd>Esc</kbd> 닫기를 기본 제공합니다. Toast는 <code>DS.toast()</code>로 띄웁니다.</p>
+        <div class="doc-demo ds-cluster">
+          <button class="ds-btn" data-ds-open="demo-modal">모달 열기</button>
+          <button class="ds-btn ds-btn--secondary" id="toast-btn">토스트 띄우기</button>
+          <button class="ds-btn ds-btn--ghost" data-tooltip="툴팁은 짧게 작성합니다">툴팁 (hover)</button>
+        </div>
+<pre><code>&lt;button class="ds-btn" data-ds-open="my-modal"&gt;열기&lt;/button&gt;
+&lt;dialog class="ds-modal" id="my-modal"&gt;…&lt;button data-ds-close&gt;닫기&lt;/button&gt;&lt;/dialog&gt;
+
+DS.toast("저장되었습니다");</code></pre>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="ds-modal" id="demo-modal" aria-labelledby="demo-modal-title">
+    <div class="ds-modal__header"><div class="ds-modal__title" id="demo-modal-title">프로젝트를 삭제할까요?</div></div>
+    <div class="ds-modal__body">삭제한 프로젝트와 모든 데이터는 복구할 수 없습니다. 계속하시겠어요?</div>
+    <div class="ds-modal__footer">
+      <button class="ds-btn ds-btn--secondary" data-ds-close>취소</button>
+      <button class="ds-btn ds-btn--danger" data-ds-close="confirm" id="modal-confirm">삭제</button>
+    </div>
+  </dialog>
+
+  <script src="../src/ds.js"></script>
+  <script>
+    // ---- 문서용 데모 스크립트 ----
+    const css = getComputedStyle(document.documentElement);
+    const swatch = (name, label) =>
+      `<div class="swatch"><i style="background:var(${name})"></i><b>${label}</b><code>${name.replace("--ds-", "")}</code></div>`;
+
+    document.getElementById("swatch-brand").innerHTML =
+      [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((s) => swatch(`--ds-brand-${s}`, s)).join("");
+    document.getElementById("swatch-gray").innerHTML =
+      [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((s) => swatch(`--ds-gray-${s}`, s)).join("");
+    document.getElementById("swatch-semantic").innerHTML = [
+      ["--ds-color-bg", "Background"],
+      ["--ds-color-surface", "Surface"],
+      ["--ds-color-text", "Text"],
+      ["--ds-color-text-secondary", "Text 2nd"],
+      ["--ds-color-border", "Border"],
+      ["--ds-color-accent", "Accent"],
+      ["--ds-color-success", "Success"],
+      ["--ds-color-warning", "Warning"],
+      ["--ds-color-danger", "Danger"],
+      ["--ds-color-info", "Info"],
+    ].map(([n, l]) => swatch(n, l)).join("");
+
+    document.getElementById("space-list").innerHTML = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20]
+      .map((s) => `<div class="space-row"><code>space-${s}</code><i style="width:var(--ds-space-${s})"></i><span class="ds-caption">${css.getPropertyValue(`--ds-space-${s}`).trim()}</span></div>`)
+      .join("");
+
+    document.getElementById("indet").indeterminate = true;
+
+    // Theme switcher
+    const themeBtns = document.querySelectorAll("[data-theme-btn]");
+    const syncTheme = () => themeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeBtn === DS.getTheme())));
+    themeBtns.forEach((b) => b.addEventListener("click", () => { DS.setTheme(b.dataset.themeBtn); syncTheme(); }));
+    syncTheme();
+
+    // Segmented demo
+    const seg = document.querySelectorAll("#seg-demo button");
+    seg.forEach((b) => b.addEventListener("click", () => seg.forEach((x) => x.setAttribute("aria-pressed", String(x === b)))));
+
+    document.getElementById("toast-btn").addEventListener("click", () => DS.toast("변경 사항이 저장되었습니다"));
+    document.getElementById("demo-modal").addEventListener("close", (e) => {
+      if (e.target.returnValue === "confirm") DS.toast("프로젝트가 삭제되었습니다");
+    });
+  </script>
+</body>
+</html>
