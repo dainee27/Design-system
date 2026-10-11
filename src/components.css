@@ -146,7 +146,7 @@
 .ds-textarea[aria-invalid="true"],
 .ds-select[aria-invalid="true"] { border-color: var(--ds-color-danger); }
 .ds-input[aria-invalid="true"]:focus,
-.ds-textarea[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgb(229 56 59 / 0.25); }
+.ds-textarea[aria-invalid="true"]:focus { box-shadow: var(--ds-focus-ring-danger); }
 .ds-input:disabled,
 .ds-textarea:disabled,
 .ds-select:disabled {

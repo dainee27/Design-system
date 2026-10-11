@@ -37,7 +37,7 @@ npm run dev   # http://localhost:5173/docs/
 
 | 분류 | 예시 | 설명 |
 | --- | --- | --- |
-| Color (primitive) | `--ds-brand-600`, `--ds-gray-200` | 원시 팔레트. 컴포넌트에서 직접 사용하지 않습니다. |
+| Color (primitive) | `--ds-brand-500`, `--ds-gray-200` | 원시 팔레트. 컴포넌트에서 직접 사용하지 않습니다. |
 | Color (semantic) | `--ds-color-accent`, `--ds-color-text-secondary` | 용도 기반 별칭. 테마에 따라 값이 바뀝니다. |
 | Typography | `--ds-text-sm`, `--ds-weight-semibold` | 12–48px 스케일, 기본 서체 Pretendard |
 | Spacing | `--ds-space-4` (16px) | 4px 그리드 |
@@ -47,6 +47,20 @@ npm run dev   # http://localhost:5173/docs/
 | Z-index | `--ds-z-modal` | dropdown → tooltip 계층 |
 
 **원칙:** 컴포넌트는 semantic 토큰만 참조합니다. 브랜드 색을 바꾸려면 `--ds-brand-*` 값만 교체하면 됩니다.
+
+### 컬러: Apple HIG 시스템 컬러
+
+강조·상태 색은 Apple Human Interface Guidelines의 시스템 컬러를 **원색 그대로** 사용합니다. 각 색을 500 단계로 두고 50–900 단계를 파생했으며, 다크 모드에서는 HIG의 다크 변형을 사용합니다.
+
+| 역할 | 토큰 | 라이트 | 다크 |
+| --- | --- | --- | --- |
+| Accent | `--ds-color-accent` | systemBlue `#007AFF` | `#0A84FF` |
+| Success | `--ds-color-success` | systemGreen `#34C759` | `#30D158` |
+| Warning | `--ds-color-warning` | systemOrange `#FF9500` | `#FF9F0A` |
+| Danger | `--ds-color-danger` | systemRed `#FF3B30` | `#FF453A` |
+| Info | `--ds-color-info` | systemCyan `#32ADE6` | `#64D2FF` |
+
+> 접근성 참고: HIG 원색은 밝고 채도가 높아, 흰 글자를 올리면 대비가 WCAG AA(4.5:1)에 못 미칩니다(예: 흰 글자 on `#007AFF` = 4.02:1). 연한 배경 위 상태 텍스트(`--ds-color-*-text`)는 가독성을 위해 같은 색조의 진한 단계를 사용합니다.
 
 ## 테마
 

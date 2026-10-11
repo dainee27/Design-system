@@ -1,6 +1,7 @@
 /* ==========================================================================
    Tokens
    1) Primitive tokens  — raw palette & scales (tokens/tokens.json 와 동일)
+      색상은 Apple HIG 시스템 컬러를 500 단계(기준색)로 두고 명도 단계를 파생했습니다.
    2) Semantic tokens   — 용도 기반 별칭. 컴포넌트는 semantic 토큰만 사용합니다.
    ========================================================================== */
 
@@ -19,33 +20,66 @@
   --ds-gray-900: #14171d;
   --ds-gray-950: #0b0d11;
 
-  --ds-brand-50: #eef2ff;
-  --ds-brand-100: #dfe6ff;
-  --ds-brand-200: #c2ceff;
-  --ds-brand-300: #99abff;
-  --ds-brand-400: #6d80fb;
-  --ds-brand-500: #4b5bf2;
-  --ds-brand-600: #3a43dd;
-  --ds-brand-700: #2f35b4;
-  --ds-brand-800: #29308f;
-  --ds-brand-900: #262d72;
-
-  --ds-green-50: #ecfdf3;
-  --ds-green-500: #12a150;
-  --ds-green-600: #0e8743;
-  --ds-green-700: #0b6b36;
-  --ds-yellow-50: #fffaeb;
-  --ds-yellow-500: #e5a000;
-  --ds-yellow-600: #b77a00;
-  --ds-yellow-700: #8a5c00;
-  --ds-red-50: #fef2f2;
-  --ds-red-500: #e5383b;
-  --ds-red-600: #c62a2f;
-  --ds-red-700: #a01f24;
-  --ds-blue-50: #eff8ff;
-  --ds-blue-500: #1d8cf8;
-  --ds-blue-600: #1570cd;
-  --ds-blue-700: #1158a3;
+  /* systemBlue — light #007AFF / dark #0A84FF (Apple HIG) */
+  --ds-brand-50: #ebf4ff;
+  --ds-brand-100: #d6eaff;
+  --ds-brand-200: #add4ff;
+  --ds-brand-300: #7abaff;
+  --ds-brand-400: #3d9aff;
+  --ds-brand-500: #007aff;
+  --ds-brand-600: #0069db;
+  --ds-brand-700: #0055b2;
+  --ds-brand-800: #00428a;
+  --ds-brand-900: #003166;
+  --ds-brand-dark: #0a84ff;
+  /* systemGreen — light #34C759 / dark #30D158 (Apple HIG) */
+  --ds-green-50: #effbf2;
+  --ds-green-100: #dff6e4;
+  --ds-green-200: #beedca;
+  --ds-green-300: #95e2a9;
+  --ds-green-400: #65d481;
+  --ds-green-500: #34c759;
+  --ds-green-600: #2dab4d;
+  --ds-green-700: #248b3e;
+  --ds-green-800: #1c6b30;
+  --ds-green-900: #155024;
+  --ds-green-dark: #30d158;
+  /* systemOrange — light #FF9500 / dark #FF9F0A (Apple HIG) */
+  --ds-orange-50: #fff7eb;
+  --ds-orange-100: #ffeed6;
+  --ds-orange-200: #ffddad;
+  --ds-orange-300: #ffc87a;
+  --ds-orange-400: #ffae3d;
+  --ds-orange-500: #ff9500;
+  --ds-orange-600: #db8000;
+  --ds-orange-700: #b26800;
+  --ds-orange-800: #8a5000;
+  --ds-orange-900: #663c00;
+  --ds-orange-dark: #ff9f0a;
+  /* systemRed — light #FF3B30 / dark #FF453A (Apple HIG) */
+  --ds-red-50: #ffefee;
+  --ds-red-100: #ffe0de;
+  --ds-red-200: #ffc0bd;
+  --ds-red-300: #ff9993;
+  --ds-red-400: #ff6a62;
+  --ds-red-500: #ff3b30;
+  --ds-red-600: #db3329;
+  --ds-red-700: #b22922;
+  --ds-red-800: #8a201a;
+  --ds-red-900: #661813;
+  --ds-red-dark: #ff453a;
+  /* systemCyan — light #32ADE6 / dark #64D2FF (Apple HIG) */
+  --ds-cyan-50: #eff8fd;
+  --ds-cyan-100: #def2fb;
+  --ds-cyan-200: #bde5f7;
+  --ds-cyan-300: #94d4f2;
+  --ds-cyan-400: #63c1ec;
+  --ds-cyan-500: #32ade6;
+  --ds-cyan-600: #2b95c6;
+  --ds-cyan-700: #2379a1;
+  --ds-cyan-800: #1b5d7c;
+  --ds-cyan-900: #14455c;
+  --ds-cyan-dark: #64d2ff;
 
   /* ---- Primitive: typography ---- */
   --ds-font-sans: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
@@ -139,31 +173,35 @@
   --ds-color-border-strong: var(--ds-gray-300);
   --ds-color-border-focus: var(--ds-brand-500);
 
-  --ds-color-accent: var(--ds-brand-600);
-  --ds-color-accent-hover: var(--ds-brand-700);
-  --ds-color-accent-active: var(--ds-brand-800);
+  /* Accent — HIG systemBlue 원색 그대로 사용 */
+  --ds-color-accent: var(--ds-brand-500);
+  --ds-color-accent-hover: var(--ds-brand-600);
+  --ds-color-accent-active: var(--ds-brand-700);
   --ds-color-accent-subtle: var(--ds-brand-50);
   --ds-color-accent-subtle-hover: var(--ds-brand-100);
-  --ds-color-accent-text: var(--ds-brand-700);
+  --ds-color-accent-text: var(--ds-brand-500);
 
   --ds-color-neutral-hover: var(--ds-gray-100);
   --ds-color-neutral-active: var(--ds-gray-200);
 
-  --ds-color-success: var(--ds-green-600);
+  /* Status — HIG systemGreen / Orange / Red / Cyan 원색.
+     *-text 는 연한 배경 위 가독성을 위해 같은 색조의 진한 단계를 사용합니다. */
+  --ds-color-success: var(--ds-green-500);
   --ds-color-success-subtle: var(--ds-green-50);
-  --ds-color-success-text: var(--ds-green-700);
-  --ds-color-warning: var(--ds-yellow-500);
-  --ds-color-warning-subtle: var(--ds-yellow-50);
-  --ds-color-warning-text: var(--ds-yellow-700);
-  --ds-color-danger: var(--ds-red-600);
-  --ds-color-danger-hover: var(--ds-red-700);
+  --ds-color-success-text: var(--ds-green-800);
+  --ds-color-warning: var(--ds-orange-500);
+  --ds-color-warning-subtle: var(--ds-orange-50);
+  --ds-color-warning-text: var(--ds-orange-800);
+  --ds-color-danger: var(--ds-red-500);
+  --ds-color-danger-hover: var(--ds-red-600);
   --ds-color-danger-subtle: var(--ds-red-50);
   --ds-color-danger-text: var(--ds-red-700);
-  --ds-color-info: var(--ds-blue-600);
-  --ds-color-info-subtle: var(--ds-blue-50);
-  --ds-color-info-text: var(--ds-blue-700);
+  --ds-color-info: var(--ds-cyan-500);
+  --ds-color-info-subtle: var(--ds-cyan-50);
+  --ds-color-info-text: var(--ds-cyan-800);
 
-  --ds-focus-ring: 0 0 0 3px rgb(75 91 242 / 0.35);
+  --ds-focus-ring: 0 0 0 3px rgb(0 122 255 / 0.35);
+  --ds-focus-ring-danger: 0 0 0 3px rgb(255 59 48 / 0.3);
 }
 
 /* ======================================================================
@@ -187,28 +225,30 @@
     --ds-color-text-inverse: var(--ds-gray-900);
     --ds-color-border: var(--ds-gray-800);
     --ds-color-border-strong: var(--ds-gray-700);
-    --ds-color-border-focus: var(--ds-brand-400);
-    --ds-color-accent: var(--ds-brand-500);
-    --ds-color-accent-hover: var(--ds-brand-400);
-    --ds-color-accent-active: var(--ds-brand-300);
-    --ds-color-accent-subtle: rgb(75 91 242 / 0.16);
-    --ds-color-accent-subtle-hover: rgb(75 91 242 / 0.26);
-    --ds-color-accent-text: var(--ds-brand-300);
+    --ds-color-border-focus: var(--ds-brand-dark);
+    --ds-color-accent: var(--ds-brand-dark);
+    --ds-color-accent-hover: #3d9eff;
+    --ds-color-accent-active: #66b2ff;
+    --ds-color-accent-subtle: rgb(10 132 255 / 0.18);
+    --ds-color-accent-subtle-hover: rgb(10 132 255 / 0.28);
+    --ds-color-accent-text: var(--ds-brand-dark);
     --ds-color-neutral-hover: var(--ds-gray-800);
     --ds-color-neutral-active: var(--ds-gray-700);
-    --ds-color-success: var(--ds-green-500);
-    --ds-color-success-subtle: rgb(18 161 80 / 0.16);
-    --ds-color-success-text: #5fd690;
-    --ds-color-warning-subtle: rgb(229 160 0 / 0.16);
-    --ds-color-warning-text: #f5c451;
-    --ds-color-danger: var(--ds-red-500);
-    --ds-color-danger-hover: #ef5c5f;
-    --ds-color-danger-subtle: rgb(229 56 59 / 0.16);
-    --ds-color-danger-text: #f78a8c;
-    --ds-color-info: var(--ds-blue-500);
-    --ds-color-info-subtle: rgb(29 140 248 / 0.16);
-    --ds-color-info-text: #7cbcfb;
-    --ds-focus-ring: 0 0 0 3px rgb(109 128 251 / 0.45);
+    --ds-color-success: var(--ds-green-dark);
+    --ds-color-success-subtle: rgb(48 209 88 / 0.16);
+    --ds-color-success-text: var(--ds-green-dark);
+    --ds-color-warning: var(--ds-orange-dark);
+    --ds-color-warning-subtle: rgb(255 159 10 / 0.16);
+    --ds-color-warning-text: var(--ds-orange-dark);
+    --ds-color-danger: var(--ds-red-dark);
+    --ds-color-danger-hover: #ff6961;
+    --ds-color-danger-subtle: rgb(255 69 58 / 0.16);
+    --ds-color-danger-text: var(--ds-red-dark);
+    --ds-color-info: var(--ds-cyan-dark);
+    --ds-color-info-subtle: rgb(100 210 255 / 0.16);
+    --ds-color-info-text: var(--ds-cyan-dark);
+    --ds-focus-ring: 0 0 0 3px rgb(10 132 255 / 0.5);
+    --ds-focus-ring-danger: 0 0 0 3px rgb(255 69 58 / 0.4);
     --ds-shadow-sm: 0 1px 3px rgb(0 0 0 / 0.4);
     --ds-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
     --ds-shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.55);
@@ -232,28 +272,30 @@
   --ds-color-text-inverse: var(--ds-gray-900);
   --ds-color-border: var(--ds-gray-800);
   --ds-color-border-strong: var(--ds-gray-700);
-  --ds-color-border-focus: var(--ds-brand-400);
-  --ds-color-accent: var(--ds-brand-500);
-  --ds-color-accent-hover: var(--ds-brand-400);
-  --ds-color-accent-active: var(--ds-brand-300);
-  --ds-color-accent-subtle: rgb(75 91 242 / 0.16);
-  --ds-color-accent-subtle-hover: rgb(75 91 242 / 0.26);
-  --ds-color-accent-text: var(--ds-brand-300);
+  --ds-color-border-focus: var(--ds-brand-dark);
+  --ds-color-accent: var(--ds-brand-dark);
+  --ds-color-accent-hover: #3d9eff;
+  --ds-color-accent-active: #66b2ff;
+  --ds-color-accent-subtle: rgb(10 132 255 / 0.18);
+  --ds-color-accent-subtle-hover: rgb(10 132 255 / 0.28);
+  --ds-color-accent-text: var(--ds-brand-dark);
   --ds-color-neutral-hover: var(--ds-gray-800);
   --ds-color-neutral-active: var(--ds-gray-700);
-  --ds-color-success: var(--ds-green-500);
-  --ds-color-success-subtle: rgb(18 161 80 / 0.16);
-  --ds-color-success-text: #5fd690;
-  --ds-color-warning-subtle: rgb(229 160 0 / 0.16);
-  --ds-color-warning-text: #f5c451;
-  --ds-color-danger: var(--ds-red-500);
-  --ds-color-danger-hover: #ef5c5f;
-  --ds-color-danger-subtle: rgb(229 56 59 / 0.16);
-  --ds-color-danger-text: #f78a8c;
-  --ds-color-info: var(--ds-blue-500);
-  --ds-color-info-subtle: rgb(29 140 248 / 0.16);
-  --ds-color-info-text: #7cbcfb;
-  --ds-focus-ring: 0 0 0 3px rgb(109 128 251 / 0.45);
+  --ds-color-success: var(--ds-green-dark);
+  --ds-color-success-subtle: rgb(48 209 88 / 0.16);
+  --ds-color-success-text: var(--ds-green-dark);
+  --ds-color-warning: var(--ds-orange-dark);
+  --ds-color-warning-subtle: rgb(255 159 10 / 0.16);
+  --ds-color-warning-text: var(--ds-orange-dark);
+  --ds-color-danger: var(--ds-red-dark);
+  --ds-color-danger-hover: #ff6961;
+  --ds-color-danger-subtle: rgb(255 69 58 / 0.16);
+  --ds-color-danger-text: var(--ds-red-dark);
+  --ds-color-info: var(--ds-cyan-dark);
+  --ds-color-info-subtle: rgb(100 210 255 / 0.16);
+  --ds-color-info-text: var(--ds-cyan-dark);
+  --ds-focus-ring: 0 0 0 3px rgb(10 132 255 / 0.5);
+  --ds-focus-ring-danger: 0 0 0 3px rgb(255 69 58 / 0.4);
   --ds-shadow-sm: 0 1px 3px rgb(0 0 0 / 0.4);
   --ds-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.5);
   --ds-shadow-lg: 0 12px 24px -4px rgb(0 0 0 / 0.55);
