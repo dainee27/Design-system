@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>Design Systems</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;background:#f4f5f7;color:#14171d;padding:48px;width:1440px;word-break:keep-all}
+header{margin-bottom:32px}
+h1{font-size:34px;letter-spacing:-.02em}
+header p{color:#5b6273;margin-top:8px;font-size:15px}
+.group{margin-top:32px}
+.group h2{font-size:15px;font-weight:700;color:#5b6273;letter-spacing:.04em;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border:1px solid #e3e6eb;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.top{padding:18px 18px 0}
+.name{display:flex;align-items:center;gap:10px}
+.dot{width:26px;height:26px;border-radius:7px;background:var(--p)}
+.name b{font-size:17px}
+.by{font-size:12px;color:#7a8191;margin-top:2px}
+.desc{font-size:13px;color:#444b5a;line-height:1.55;margin-top:10px;min-height:40px}
+.demo{margin:14px 18px 0;padding:16px;border-radius:10px;background:var(--bg,#f7f8fa);display:flex;flex-direction:column;gap:10px;font-family:var(--f,inherit)}
+.row{display:flex;gap:8px;align-items:center}
+.btn{height:34px;padding:0 14px;border-radius:var(--r);font-size:13px;font-weight:600;display:inline-flex;align-items:center;border:1px solid transparent;text-transform:var(--tt,none);letter-spacing:var(--ls,0)}
+.b1{background:var(--p);color:var(--on,#fff)}
+.b2{background:var(--s-bg,transparent);color:var(--s-fg,var(--p));border-color:var(--s-bd,var(--p))}
+.inp{height:34px;border-radius:var(--ri,var(--r));border:1px solid var(--bd,#c9ced6);background:#fff;font-size:12px;color:#8a90a0;display:flex;align-items:center;padding:0 10px;border-width:var(--bw,1px)}
+.tog{width:34px;height:20px;border-radius:999px;background:var(--p);position:relative;flex-shrink:0}
+.tog::after{content:"";position:absolute;right:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff}
+.chip{font-size:11px;padding:3px 8px;border-radius:var(--rc,999px);background:color-mix(in srgb,var(--p) 14%,#fff);color:var(--p);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:14px 18px 18px;margin-top:auto}
+.tags span{font-size:11px;padding:3px 8px;border-radius:999px;background:#f0f2f5;color:#4b5263}
+.swatches{display:flex;gap:4px}
+.swatches i{flex:1;height:8px;border-radius:3px}
+footer{margin-top:28px;font-size:12px;color:#7a8191}
+</style></head><body>
+<header>
+<h1>업계에서 자주 쓰는 디자인 시스템</h1>
+<p>각 시스템의 대표 스타일(주요 색상 · 모서리 · 버튼 형태)을 단순화해 재현한 비교입니다. 정확한 값은 공식 문서를 확인하세요.</p>
+</header>
+<div id="root"></div>
+<footer>※ 색상과 형태는 대략적인 근사치이며, 각 시스템의 공식 자료가 아닙니다.</footer>
+<script>
+const groups=[
+["① 기준이 되는 대형 시스템",[
+["Material Design 3","Google","사용자 맞춤 색상(Dynamic Color)과 토큰 체계. Android 표준",{p:"#6750A4",r:"999px",ri:"4px",bg:"#FEF7FF"},["토큰","색상 시스템","Android"]],
+["Human Interface Guidelines","Apple","플랫폼 사용성 원칙 중심. iOS·macOS 경험의 기준",{p:"#007AFF",r:"10px",bg:"#F2F2F7","s-bg":"rgba(0,122,255,.12)","s-bd":"transparent",bd:"#e0e0e5"},["iOS","원칙","사용성"]],
+["Fluent 2","Microsoft","Windows·Office 전반에 통일 적용. React·Web Components 제공",{p:"#0F6CBD",r:"4px",bg:"#F5F5F5","s-fg":"#242424","s-bd":"#d1d1d1","s-bg":"#fff",bd:"#d1d1d1"},["생산성","기업용"]],
+]],
+["② B2B · 업무용 SaaS",[
+["Carbon","IBM","데이터 테이블·대시보드·접근성이 매우 체계적. 문서 품질 최상급",{p:"#0F62FE",r:"0",bg:"#F4F4F4","s-bg":"#393939","s-fg":"#fff","s-bd":"transparent",bd:"transparent",bw:"0 0 1px 0",rc:"999px"},["데이터","접근성","오픈소스"]],
+["Atlassian","Atlassian","Jira·Confluence의 기반. 협업 패턴과 보이스·톤 가이드",{p:"#0C66E4",r:"3px",bg:"#F7F8F9","s-bg":"#F1F2F4","s-fg":"#44546F","s-bd":"transparent",bd:"#8590A2",rc:"3px"},["협업","콘텐츠 가이드"]],
+["Polaris","Shopify","커머스 관리자에 특화. UX 라이팅 가이드가 유명",{p:"#303030",r:"8px",bg:"#F1F1F1","s-bg":"#fff","s-fg":"#303030","s-bd":"#d4d4d4",bd:"#8a8a8a"},["커머스","UX 라이팅"]],
+["Lightning","Salesforce","디자인 토큰 개념을 대중화. 엔터프라이즈 CRM",{p:"#0176D3",r:"4px",bg:"#F3F3F3","s-bg":"#fff","s-bd":"#c9c9c9",bd:"#c9c9c9"},["토큰","엔터프라이즈"]],
+["Primer","GitHub","개발자 도구에 맞는 간결한 UI와 높은 정보 밀도",{p:"#1F883D",r:"6px",bg:"#F6F8FA","s-bg":"#F6F8FA","s-fg":"#24292F","s-bd":"#d0d7de",bd:"#d0d7de"},["개발자 도구","고밀도"]],
+["Spectrum","Adobe","크리에이티브 툴용. 국제화(i18n)와 접근성 구현이 깊음",{p:"#3B63FB",r:"999px",ri:"8px",bg:"#F8F8F8","s-fg":"#222","s-bd":"#909090",bd:"#909090"},["크리에이티브","i18n"]],
+]],
+["③ 바로 쓰는 오픈소스 라이브러리",[
+["shadcn/ui","Radix + Tailwind","코드를 복사해 직접 소유하는 방식. 커스터마이징 자유도 최고",{p:"#18181B",r:"6px",bg:"#FAFAFA","s-bg":"#fff","s-fg":"#18181B","s-bd":"#e4e4e7",bd:"#e4e4e7"},["React","Tailwind","인기"]],
+["Ant Design","Ant Group","관리자·백오피스 컴포넌트가 방대. 아시아권에서 특히 많이 씀",{p:"#1677FF",r:"6px",bg:"#F5F5F5","s-bg":"#fff","s-fg":"rgba(0,0,0,.88)","s-bd":"#d9d9d9",bd:"#d9d9d9",rc:"4px"},["React","백오피스"]],
+["MUI","MUI","Material을 React로 구현. 생태계가 큼",{p:"#1976D2",r:"4px",tt:"uppercase",ls:".03em",bg:"#F5F5F5",bd:"#c4c4c4"},["React","Material"]],
+]],
+["④ 국내 사례",[
+["TDS","토스","디자인 원칙·UX 라이팅·일관성 측면에서 국내 대표 레퍼런스",{p:"#3182F6",r:"12px",ri:"12px",bg:"#F9FAFB","s-bg":"#E8F3FF","s-bd":"transparent",bd:"#E5E8EB"},["모바일","UX 라이팅"]],
+["KRDS","범정부","공공 서비스 UI/UX 표준. 웹 접근성(KWCAG) 기준 참고에 유용",{p:"#256EF4",r:"8px",bg:"#F4F5F6","s-bg":"#fff","s-bd":"#256EF4",bd:"#8A949E"},["공공","접근성"]],
+]],
+];
+const shades=c=>[90,70,45,0].map(m=>`<i style="background:color-mix(in srgb,${c},#fff ${m}%)"></i>`).join("")+`<i style="background:color-mix(in srgb,${c},#000 35%)"></i>`;
+document.getElementById("root").innerHTML=groups.map(([g,items])=>`<section class="group"><h2>${g}</h2><div class="grid">${items.map(([n,by,d,v,t])=>{
+ const style=Object.entries(v).map(([k,val])=>`--${k}:${val}`).join(";");
+ return `<div class="card" style="${style}"><div class="top"><div class="name"><div class="dot"></div><div><b>${n}</b><div class="by">${by}</div></div></div><p class="desc">${d}</p></div>
+ <div class="demo"><div class="row"><span class="btn b1">확인</span><span class="btn b2">취소</span><span class="tog"></span></div><div class="inp">이메일 입력</div><div class="row" style="justify-content:space-between"><span class="chip">Badge</span><div class="swatches" style="width:110px">${shades(v.p)}</div></div></div>
+ <div class="tags">${t.map(x=>`<span>${x}</span>`).join("")}</div></div>`}).join("")}</div></section>`).join("");
+</script></body></html>
