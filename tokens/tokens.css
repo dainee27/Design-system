@@ -1,0 +1,52 @@
+/* Blockgrid design tokens
+   Paper ground, forest ink, hairline grid, flat colour blocks carrying bold shapes. */
+:root {
+  /* Ground & ink */
+  --bg-paper: #EEEDE6;      /* page ground */
+  --bg-paper-2: #E4E3DA;    /* sunken cell, hover */
+  --bg-white: #FAFAF6;      /* raised card (use sparingly) */
+  --ink: #1C2E1A;           /* text, strokes, dark blocks */
+  --ink-2: #4A5A46;         /* secondary text */
+  --ink-3: #7D8878;         /* captions, meta */
+  --line: #C9CBBE;          /* grid hairline */
+
+  /* Block colours: always used as flat fills behind a shape */
+  --lime: #E4F86A;
+  --green: #7ED98A;
+  --forest: #1C3A1C;
+  --pink: #F4B8D4;
+  --blue: #3F86D8;
+  --sky: #A9CBF2;
+  --orange: #F07A3A;
+  --yellow: #F5D33C;
+  --lilac: #D9B3F0;
+
+  /* Type */
+  --font-display: "Bricolage Grotesque", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --font-body: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  --fs-hero: clamp(2.75rem, 7vw, 5.5rem);
+  --fs-h1: clamp(2rem, 4.5vw, 3.25rem);
+  --fs-h2: 1.75rem;
+  --fs-h3: 1.25rem;
+  --fs-body: 1rem;
+  --fs-small: .8125rem;
+  --fs-micro: .6875rem;
+
+  --lh-tight: 1.05;
+  --lh-body: 1.55;
+  --tracking-display: -0.02em;
+  --tracking-label: 0.06em;
+
+  /* Grid */
+  --grid-line: 1px;
+  --cell: 8rem;             /* base module for block tiles */
+  --gutter: 0;              /* cells touch; the hairline is the gutter */
+  --pad-cell: 1.25rem;      /* inner padding of a grid cell */
+
+  /* Shape */
+  --radius-pill: 999px;
+  --radius-frame: 1.25rem;  /* outer frame only; cells are square */
+  --radius-cell: 0;
+}
