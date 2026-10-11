@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>Material × HIG</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR",Roboto,system-ui,sans-serif;background:#f4f5f7;color:#14171d;padding:48px;width:1440px;word-break:keep-all}
+h1{font-size:34px;letter-spacing:-.02em}
+.lead{color:#5b6273;margin-top:8px;font-size:15px;line-height:1.6}
+h2{font-size:20px;margin:40px 0 6px}
+.sub{font-size:14px;color:#5b6273;margin-bottom:16px}
+.panel{background:#fff;border:1px solid #e3e6eb;border-radius:16px;padding:24px}
+.flow{display:grid;grid-template-columns:1fr 60px 1.6fr;align-items:center;gap:8px}
+.arrow{font-size:28px;color:#98a1b0;text-align:center}
+.hig{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.sw{display:flex;flex-direction:column;gap:4px;font-size:11px;color:#5b6273}
+.sw i{height:56px;border-radius:10px;display:block}
+.sw b{color:#14171d;font-size:12px}
+.sw.sel i{outline:3px solid #14171d;outline-offset:2px}
+.tones{display:grid;grid-template-columns:repeat(13,1fr);gap:0;border-radius:10px;overflow:hidden}
+.tones div{height:72px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;font-weight:600}
+.tones div.mk{box-shadow:inset 0 0 0 3px #ff2d55}
+.tlabel{display:flex;justify-content:space-between;font-size:12px;color:#5b6273;margin-top:8px}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.col h3{font-size:16px}
+.col p{font-size:13px;color:#5b6273;margin:4px 0 12px;line-height:1.5;min-height:40px}
+.badges{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.bdg{font-size:11px;font-weight:700;padding:4px 8px;border-radius:999px}
+.ok{background:#e3f8ea;color:#0b6b36}.warn{background:#fff1dc;color:#8a5c00}
+/* M3 phone */
+.phone{border-radius:28px;overflow:hidden;background:var(--surface);color:var(--onSurface);font-family:Roboto,"Noto Sans KR",sans-serif;border:1px solid #e3e6eb;position:relative;height:560px;display:flex;flex-direction:column}
+.bar{height:64px;display:flex;align-items:center;padding:0 16px;gap:16px;font-size:20px}
+.bar .ic{width:24px;height:24px;border-radius:50%;background:var(--onSurfaceVariant);opacity:.6}
+.body{padding:8px 16px;display:flex;flex-direction:column;gap:14px;flex:1}
+.card{background:var(--surfaceVariant);border-radius:12px;padding:16px}
+.card .t{font-size:16px;font-weight:500}
+.card .d{font-size:13px;color:var(--onSurfaceVariant);margin-top:4px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.m3b{height:40px;padding:0 20px;border-radius:999px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;border:1px solid transparent}
+.filled{background:var(--primary);color:var(--onPrimary)}
+.tonal{background:var(--secondaryContainer);color:var(--onSecondaryContainer)}
+.outl{border-color:var(--outline);color:var(--primary)}
+.chips{display:flex;gap:8px}
+.chip{height:32px;padding:0 12px;border-radius:8px;border:1px solid var(--outline);font-size:13px;display:inline-flex;align-items:center;color:var(--onSurfaceVariant)}
+.chip.on{background:var(--secondaryContainer);color:var(--onSecondaryContainer);border-color:transparent}
+.row{display:flex;align-items:center;justify-content:space-between;font-size:14px}
+.sw3{width:52px;height:32px;border-radius:999px;background:var(--primary);position:relative}
+.sw3::after{content:"";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--onPrimary)}
+.status{display:flex;gap:8px}
+.st{flex:1;border-radius:12px;padding:10px 12px;font-size:12px;font-weight:500}
+.fab{position:absolute;right:16px;bottom:96px;width:56px;height:56px;border-radius:16px;background:var(--primaryContainer);color:var(--onPrimaryContainer);display:grid;place-items:center;font-size:28px;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.nav{height:80px;background:var(--surfaceVariant);display:grid;grid-template-columns:repeat(3,1fr);align-items:center;text-align:center;font-size:12px;color:var(--onSurfaceVariant)}
+.nav .pill{width:64px;height:32px;border-radius:999px;margin:0 auto 4px;display:grid;place-items:center}
+.nav .pill i{width:18px;height:18px;border-radius:4px;background:currentColor;opacity:.7}
+.nav .act .pill{background:var(--secondaryContainer);color:var(--onSecondaryContainer)}
+.nav .act{color:var(--onSurface);font-weight:600}
+.roles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.role{border-radius:12px;padding:12px;height:84px;display:flex;flex-direction:column;justify-content:space-between;font-size:12px;font-weight:600}
+.role code{font-size:11px;font-weight:400;opacity:.85}
+.tip{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tip div{background:#fff;border:1px solid #e3e6eb;border-radius:14px;padding:16px;font-size:13px;line-height:1.6;color:#444b5a}
+.tip b{display:block;color:#14171d;font-size:14px;margin-bottom:4px}
+</style></head><body>
+<h1>Material 3 × Apple HIG 컬러</h1>
+<p class="lead">HIG의 시스템 컬러를 Material 3의 <b>시드(Seed) 컬러</b>로 넣으면, Material의 색상 엔진(HCT)이 톤 팔레트와 역할(Role) 색을 자동 생성합니다.<br>아래 값은 Google의 <code>material-color-utilities</code>로 실제 계산한 결과입니다.</p>
+
+<h2>1. HIG 컬러 → Material 톤 팔레트</h2>
+<p class="sub">systemBlue(#007AFF)를 시드로 선택. 원본 색은 톤 약 <span id="seedTone"></span>에 해당하며, Material은 라이트 테마 primary로 톤 40, 다크 테마로 톤 80을 사용합니다.</p>
+<div class="panel flow">
+  <div><div class="hig" id="hig" style="grid-template-columns:repeat(4,1fr)"></div></div>
+  <div class="arrow">→</div>
+  <div><div class="tones" id="tones"></div><div class="tlabel"><span>톤 0 (검정)</span><span>■ 빨간 테두리 = 라이트 primary(40) · 다크 primary(80)</span><span>톤 100 (흰색)</span></div></div>
+</div>
+
+<h2>2. 적용 방식 비교</h2>
+<p class="sub">같은 Material 3 컴포넌트에 강조색을 넣는 두 가지 방법과 다크 모드 결과입니다.</p>
+<div class="cols">
+  <div class="col"><h3>A. Material 방식 (시드 → 자동 생성)</h3><p>HIG 블루의 색조는 유지하되, 명도를 조정해 대비를 확보합니다. 추천 방식.</p>
+    <div class="badges"><span class="bdg ok">흰 글자 대비 6.43:1 · AA 통과</span></div><div class="phone" id="pA"></div></div>
+  <div class="col"><h3>B. HIG 색 그대로 고정</h3><p>primary만 #007AFF로 덮어쓰기. 브랜드 일치도는 높지만 작은 글자 대비가 기준에 못 미칩니다.</p>
+    <div class="badges"><span class="bdg warn">흰 글자 대비 4.02:1 · 작은 글씨 AA 미달(4.5)</span></div><div class="phone" id="pB"></div></div>
+  <div class="col"><h3>A의 다크 모드</h3><p>톤 80(#ADC6FF)이 primary가 되어 어두운 배경에서도 선명합니다.</p>
+    <div class="badges"><span class="bdg ok">배경 대비 10.05:1</span></div><div class="phone" id="pD"></div></div>
+</div>
+
+<h2>3. 생성된 색상 역할 (A 방식, 라이트 / 다크)</h2>
+<p class="sub">HIG systemGreen·systemOrange는 Material의 <b>Custom color + Harmonize</b>로 primary와 어울리도록 보정해 success·warning으로 사용합니다.</p>
+<div class="panel"><div class="roles" id="rolesL"></div><div class="roles" id="rolesD" style="margin-top:10px"></div></div>
+
+<div class="tip">
+  <div><b>✓ 가능한 이유</b>Material 3는 원래 아무 색이나 시드로 받아 전체 테마를 만드는 구조입니다. HIG 컬러도 하나의 입력값일 뿐입니다.</div>
+  <div><b>⚠ 주의할 점</b>HIG 컬러는 밝고 채도가 높아(톤 50대), 그대로 쓰면 흰 글자 대비가 부족합니다. 그래서 Material이 톤 40으로 어둡게 보정합니다.</div>
+  <div><b>→ 추천 조합</b>버튼·링크 등 텍스트가 올라가는 곳은 A의 primary, 아이콘·일러스트·브랜드 포인트에는 HIG 원색(#007AFF)을 함께 쓰세요.</div>
+</div>
+<script>
+const D={"seed":"#007AFF","hig":{"blue":["#007AFF","#0A84FF"],"green":["#34C759","#30D158"],"orange":["#FF9500","#FF9F0A"],"red":["#FF3B30","#FF453A"],"indigo":["#5856D6","#5E5CE6"],"pink":["#FF2D55","#FF375F"],"teal":["#30B0C7","#40C8E0"],"purple":["#AF52DE","#BF5AF2"]},"light":{"primary":"#005bc1","onPrimary":"#ffffff","primaryContainer":"#d8e2ff","onPrimaryContainer":"#001a41","secondary":"#565e71","onSecondary":"#ffffff","secondaryContainer":"#dbe2f9","onSecondaryContainer":"#141b2c","tertiary":"#715573","onTertiary":"#ffffff","tertiaryContainer":"#fbd7fc","onTertiaryContainer":"#29132d","error":"#ba1a1a","onError":"#ffffff","errorContainer":"#ffdad6","onErrorContainer":"#410002","background":"#fefbff","onBackground":"#1b1b1f","surface":"#fefbff","onSurface":"#1b1b1f","surfaceVariant":"#e1e2ec","onSurfaceVariant":"#44474f","outline":"#74777f","outlineVariant":"#c4c6d0","shadow":"#000000","scrim":"#000000","inverseSurface":"#303033","inverseOnSurface":"#f2f0f4","inversePrimary":"#adc6ff"},"dark":{"primary":"#adc6ff","onPrimary":"#002e69","primaryContainer":"#004493","onPrimaryContainer":"#d8e2ff","secondary":"#bfc6dc","onSecondary":"#293041","secondaryContainer":"#3f4759","onSecondaryContainer":"#dbe2f9","tertiary":"#debcdf","onTertiary":"#402843","tertiaryContainer":"#583e5b","onTertiaryContainer":"#fbd7fc","error":"#ffb4ab","onError":"#690005","errorContainer":"#93000a","onErrorContainer":"#ffb4ab","background":"#1b1b1f","onBackground":"#e3e2e6","surface":"#1b1b1f","onSurface":"#e3e2e6","surfaceVariant":"#44474f","onSurfaceVariant":"#c4c6d0","outline":"#8e9099","outlineVariant":"#44474f","shadow":"#000000","scrim":"#000000","inverseSurface":"#e3e2e6","inverseOnSurface":"#303033","inversePrimary":"#005bc1"},"custom":[{"name":"success","light":{"color":"#006c48","container":"#62fdb9","onContainer":"#002113"},"dark":{"color":"#3de09e","container":"#005235","onContainer":"#62fdb9"}},{"name":"warning","light":{"color":"#9a4605","container":"#ffdbca","onContainer":"#331200"},"dark":{"color":"#ffb68e","container":"#773300","onContainer":"#ffdbca"}}],"tones":{"primary":["#000000","#001a41","#002e69","#004493","#005bc1","#0072f0","#4b8eff","#80abff","#adc6ff","#d8e2ff","#edf0ff","#fefbff","#ffffff"],"secondary":["#000000","#141b2c","#293041","#3f4759","#565e71","#6f778b","#8991a5","#a3abc0","#bfc6dc","#dbe2f9","#edf0ff","#fefbff","#ffffff"],"tertiary":["#000000","#29132d","#402843","#583e5b","#715573","#8b6d8d","#a687a8","#c2a1c3","#debcdf","#fbd7fc","#ffebfc","#fffbff","#ffffff"],"neutral":["#000000","#1b1b1f","#303033","#46464a","#5e5e62","#77777a","#919094","#ababaf","#c7c6ca","#e3e2e6","#f2f0f4","#fefbff","#ffffff"],"error":["#000000","#410002","#690005","#93000a","#ba1a1a","#de3730","#ff5449","#ff897d","#ffb4ab","#ffdad6","#ffedea","#fffbff","#ffffff"]},"seedTone":53};
+document.getElementById('seedTone').textContent=D.seedTone;
+const names={blue:'Blue',green:'Green',orange:'Orange',red:'Red',indigo:'Indigo',pink:'Pink',teal:'Teal',purple:'Purple'};
+document.getElementById('hig').innerHTML=Object.entries(D.hig).map(([k,[l]])=>`<div class="sw ${k==='blue'?'sel':''}"><i style="background:${l}"></i><b>system${names[k]}</b>${l}</div>`).join('');
+const T=[0,10,20,30,40,50,60,70,80,90,95,99,100];
+document.getElementById('tones').innerHTML=D.tones.primary.map((c,i)=>`<div class="${T[i]===40||T[i]===80?'mk':''}" style="background:${c};color:${T[i]<60?'#fff':'#000'}">${T[i]}</div>`).join('');
+const vars=s=>Object.entries(s).map(([k,v])=>`--${k}:${v}`).join(';');
+const cust=(n,m)=>D.custom.find(c=>c.name===n)[m];
+const phone=(s,m)=>{const ok=cust('success',m),wn=cust('warning',m);return `<div class="phone" style="${vars(s)}">
+<div class="bar"><span class="ic"></span><span style="flex:1">프로젝트</span><span class="ic"></span></div>
+<div class="body">
+<div class="card"><div class="t">디자인 시스템 v1.0</div><div class="d">Material 3 구조 + HIG 컬러</div></div>
+<div class="btns"><span class="m3b filled">저장</span><span class="m3b tonal">임시저장</span><span class="m3b outl">취소</span></div>
+<div class="chips"><span class="chip on">✓ 전체</span><span class="chip">디자인</span><span class="chip">개발</span></div>
+<div class="row"><span>알림 받기</span><span class="sw3"></span></div>
+<div class="status"><span class="st" style="background:${ok.container};color:${ok.onContainer}">● 배포 완료</span><span class="st" style="background:${wn.container};color:${wn.onContainer}">● 검토 필요</span></div>
+</div>
+<div class="fab">+</div>
+<div class="nav"><div class="act"><div class="pill"><i></i></div>홈</div><div><div class="pill"><i></i></div>검색</div><div><div class="pill"><i></i></div>설정</div></div>
+</div>`};
+const B={...D.light,primary:'#007AFF'};
+const rep=(id,html)=>{const el=document.getElementById(id);el.outerHTML=html};
+rep('pA',phone(D.light,'light'));rep('pB',phone(B,'light'));rep('pD',phone(D.dark,'dark'));
+const roles=(s,m)=>[['primary','onPrimary'],['primaryContainer','onPrimaryContainer'],['secondaryContainer','onSecondaryContainer'],['tertiaryContainer','onTertiaryContainer']].map(([b,f])=>`<div class="role" style="background:${s[b]};color:${s[f]}">${b}<code>${s[b]} · ${m}</code></div>`).join('')
+ +['success','warning'].map(n=>{const c=cust(n,m);return `<div class="role" style="background:${c.container};color:${c.onContainer}">${n}Container<code>${c.container} · ${m}</code></div>`}).join('')
+ +`<div class="role" style="background:${s.errorContainer};color:${s.onErrorContainer}">errorContainer<code>${s.errorContainer} · ${m}</code></div><div class="role" style="background:${s.surface};color:${s.onSurface};box-shadow:inset 0 0 0 1px ${s.outlineVariant}">surface<code>${s.surface} · ${m}</code></div>`;
+document.getElementById('rolesL').innerHTML=roles(D.light,'light');
+document.getElementById('rolesD').innerHTML=roles(D.dark,'dark');
+</script></body></html>
